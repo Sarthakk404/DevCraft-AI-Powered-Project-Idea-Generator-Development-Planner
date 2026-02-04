@@ -1,0 +1,25 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://localhost:8000/api/v1',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export const generateIdeas = async (profile) => {
+  const response = await api.post('/idea/generate', profile);
+  return response.data;
+};
+
+export const generateFullPlan = async (profile) => {
+  const response = await api.post('/idea/full-plan', profile);
+  return response.data;
+};
+
+export const getIdeaDetails = async (id, profile) => {
+  const response = await api.post(`/idea/${id}/details`, profile);
+  return response.data;
+};
+
+export default api;
