@@ -1,76 +1,95 @@
-# DevCraft – AI-Powered Project Idea Generator & Development Planner
+# 🚀 DevCraft: AI-Powered Project Planner
 
-DevCraft is a FastAPI + React application that uses Google Gemini AI to generate personalized project ideas, feature breakdowns, tech stack recommendations, development roadmaps, learning paths, and timelines based on your skills, interests, goals, and time availability.
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-18.0+-61DAFB.svg?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
+[![Groq](https://img.shields.io/badge/AI-Groq--LLAMA3.3-orange.svg?style=flat-square)](https://groq.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-## Tech Stack
+**DevCraft** is a high-performance, full-stack application that transforms your skills and interests into a comprehensive development roadmap. Powered by **Groq** (LLAMA 3.3), it generates personalized project ideas and complete execution plans in seconds.
 
-- **Backend**: Python 3.11+, FastAPI, SQLAlchemy, SQLite
-- **Frontend**: React, Vite, TailwindCSS
-- **AI**: Google Gemini 2.0 Flash
+---
 
-## Quick Start (Manual Setup)
+## ✨ Features
 
-This project is designed to run locally without Docker for simplicity.
+- 🎯 **Tailored Ideas**: Generates projects based on your specific tech stack and experience level.
+- 📋 **Feature Breakdown**: Detailed core and nice-to-have feature lists with prioritization.
+- 🛠️ **Smart Tech Stack**: Recommended libraries and tools specifically chosen for the project.
+- 🗺️ **Phased Roadmap**: A step-by-step development guide from initialization to deployment.
+- 📚 **Learning Path**: Curated resources to help you master the new technologies required.
 
-### Prerequisites
+---
 
-- Python 3.11+
-- Node.js 18+
-- A [Google Gemini API key](https://aistudio.google.com/apikey) (Free)
+## 🛠️ Tech Stack
+
+| Layer         | Technology                  |
+| :------------ | :-------------------------- |
+| **Frontend**  | React, Vite, TailwindCSS    |
+| **Backend**   | Python, FastAPI, SQLAlchemy |
+| **Database**  | SQLite (Local)              |
+| **AI Engine** | **Groq (LLAMA 3.3)**        |
+
+---
+
+## 🚀 Quick Start
 
 ### 1. Backend Setup
 
-1.  Open a terminal in the root `DevCraft` folder.
-2.  Create and activate a virtual environment:
-    ```bash
-    python -m venv venv
-    # Windows:
-    venv\Scripts\activate
-    # macOS/Linux:
-    source venv/bin/activate
-    ```
-3.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
-4.  Configure `.env`:
-    - Create a `.env` file (copy `.env.example` if it exists, or just create new).
-    - Add your Gemini API Key:
-      ```properties
-      GEMINI_API_KEY=your_key_here
-      GEMINI_MODEL=gemini-2.0-flash
-      ```
-5.  Start the server:
-    ```bash
-    uvicorn app.main:app --reload
-    ```
-    The API will be running at `http://127.0.0.1:8000`.
+```bash
+# Clone the repository
+git clone https://github.com/Sarthakk404/DevCraft-AI-Powered-Project-Idea-Generator-Development-Planner.git
+cd DevCraft
+
+# Create and activate virtual environment
+python -m venv venv
+# Windows:
+.\venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure Environment
+# Create a .env file and add your Groq API Key
+echo "GROQ_API_KEY=your_groq_key_here" > .env
+echo "GROQ_MODEL=llama-3.3-70b-versatile" >> .env
+
+# Run the API
+uvicorn app.main:app --reload
+```
 
 ### 2. Frontend Setup
 
-1.  Open a **new** terminal.
-2.  Navigate to the `frontend` folder:
-    ```bash
-    cd frontend
-    ```
-3.  Install dependencies:
-    ```bash
-    npm install
-    ```
-4.  Start the dev server:
-    ```bash
-    npm run dev
-    ```
-5.  Open `http://localhost:5173` in your browser.
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
-## usage
+---
 
-1.  Fill out your profile (Skills, Interests, Goal, Time).
-2.  Click **"Generate Project Plan"**.
-3.  Wait for the AI to generate your plan (this may take 30-60 seconds).
-    - _Note: If you hit rate limits, the app will automatically wait and retry. Just be patient!_
+## 📖 Usage
 
-## Troubleshooting
+1.  Visit `http://localhost:5173`.
+2.  Input your **Skills**, **Interests**, and **Experience Level**.
+3.  Define your **Goal** and **Time Availability**.
+4.  Hit **"Generate Project Plan"** and watch Groq architect your next project in real-time.
 
-- **429 Resource Exhausted**: You hit the free tier rate limit. The app handles this by waiting, but if it persists, try waiting 1-2 minutes manually or get a new API key.
-- **Database Error**: Ensure you aren't running an old PostgreSQL config. The defaults use SQLite (`devcraft.db`) which is created automatically.
+---
+
+## 🛡️ Troubleshooting
+
+- **API Key Error**: Ensure `GROQ_API_KEY` is set in your `.env` file.
+- **Model Not Found**: The default is `llama-3.3-70b-versatile`. Ensure your Groq account has access to this model.
+- **CORS Issues**: The backend defaults to allowing all origins (`*`) for local development.
+
+---
+
+## 📝 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+<p align="center">Made with ❤️ for Developers</p>
