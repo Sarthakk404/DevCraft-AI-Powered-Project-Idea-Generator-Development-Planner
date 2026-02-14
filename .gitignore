@@ -4,8 +4,25 @@ __pycache__/
 *$py.class
 venv/
 .env
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
 
 # Node
 node_modules/
 dist/
 .DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Local Database
+devcraft.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Environment
+.env.local
+.env.*.local
