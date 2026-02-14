@@ -1,71 +1,76 @@
-# DevCraft 🚀
+# DevCraft – AI-Powered Project Idea Generator & Development Planner
 
-DevCraft is an AI-powered project idea generator and development planner designed to help developers bridge the gap between learning and building. It generates personalized project ideas, detailed feature breakdowns, tech stack recommendations, and step-by-step roadmaps based on your skills and interests.
+DevCraft is a FastAPI + React application that uses Google Gemini AI to generate personalized project ideas, feature breakdowns, tech stack recommendations, development roadmaps, learning paths, and timelines based on your skills, interests, goals, and time availability.
 
-## ✨ Features
+## Tech Stack
 
-- **Personalized Idea Generation**: Tailored to your skill level and goals.
-- **Smart Tech Stack**: Recommendations based on what you know + what you should learn.
-- **Detailed Roadmaps**: Phased development plans to keep you on track.
-- **Feature Breakdowns**: Core MVP features vs. "Nice-to-have" extras.
-- **Learning Resources**: Curated links for new technologies.
+- **Backend**: Python 3.11+, FastAPI, SQLAlchemy, SQLite
+- **Frontend**: React, Vite, TailwindCSS
+- **AI**: Google Gemini 2.0 Flash
 
-## 🛠️ Tech Stack
+## Quick Start (Manual Setup)
 
-- **Frontend**: React, Vite, Framer Motion, Lucide Icons
-- **Backend**: FastAPI, Python 3.11
-- **AI**: Google Gemini Pro (via `google-genai` SDK)
-- **Database**: PostgreSQL
-- **Orchestration**: Docker & Docker Compose
-
-## 🚀 Quick Start (with Docker)
-
-The easiest way to get DevCraft running is using Docker Compose.
+This project is designed to run locally without Docker for simplicity.
 
 ### Prerequisites
 
-- Docker and Docker Compose installed
-- Google Gemini API Key
+- Python 3.11+
+- Node.js 18+
+- A [Google Gemini API key](https://aistudio.google.com/apikey) (Free)
 
-### Installation
+### 1. Backend Setup
 
-1. Clone the repository
-2. Create a `.env` file from the example:
-   ```bash
-   cp .env.example .env
-   ```
-3. Add your `GEMINI_API_KEY` to the `.env` file.
-4. Run the application:
-   ```bash
-   docker compose up --build
-   ```
+1.  Open a terminal in the root `DevCraft` folder.
+2.  Create and activate a virtual environment:
+    ```bash
+    python -m venv venv
+    # Windows:
+    venv\Scripts\activate
+    # macOS/Linux:
+    source venv/bin/activate
+    ```
+3.  Install dependencies:
+    ```bash
+    pip install -r requirements.txt
+    ```
+4.  Configure `.env`:
+    - Create a `.env` file (copy `.env.example` if it exists, or just create new).
+    - Add your Gemini API Key:
+      ```properties
+      GEMINI_API_KEY=your_key_here
+      GEMINI_MODEL=gemini-2.0-flash
+      ```
+5.  Start the server:
+    ```bash
+    uvicorn app.main:app --reload
+    ```
+    The API will be running at `http://127.0.0.1:8000`.
 
-- **Frontend**: [http://localhost:3000](http://localhost:3000)
-- **Backend API**: [http://localhost:8000](http://localhost:8000)
+### 2. Frontend Setup
 
----
+1.  Open a **new** terminal.
+2.  Navigate to the `frontend` folder:
+    ```bash
+    cd frontend
+    ```
+3.  Install dependencies:
+    ```bash
+    npm install
+    ```
+4.  Start the dev server:
+    ```bash
+    npm run dev
+    ```
+5.  Open `http://localhost:5173` in your browser.
 
-## 🛠️ Manual Development Setup
+## usage
 
-If you prefer to run the services manually:
+1.  Fill out your profile (Skills, Interests, Goal, Time).
+2.  Click **"Generate Project Plan"**.
+3.  Wait for the AI to generate your plan (this may take 30-60 seconds).
+    - _Note: If you hit rate limits, the app will automatically wait and retry. Just be patient!_
 
-### Backend
+## Troubleshooting
 
-1. Create virtual environment: `python -m venv venv`
-2. Activate venv: `source venv/bin/activate` (Windows: `venv\Scripts\Activate`)
-3. Install deps: `pip install -r requirements.txt`
-4. Run: `fastapi dev app/main.py`
-
-### Frontend
-
-1. Navigate to `frontend/`
-2. Install deps: `npm install`
-3. Run: `npm run dev`
-
-## 👤 Author
-
-**Sarthak** - [github.com/Sarthakk404](https://github.com/Sarthakk404)
-
-## 📄 License
-
-MIT
+- **429 Resource Exhausted**: You hit the free tier rate limit. The app handles this by waiting, but if it persists, try waiting 1-2 minutes manually or get a new API key.
+- **Database Error**: Ensure you aren't running an old PostgreSQL config. The defaults use SQLite (`devcraft.db`) which is created automatically.

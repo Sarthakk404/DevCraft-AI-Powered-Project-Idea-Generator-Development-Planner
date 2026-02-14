@@ -1,27 +1,26 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, DeclarativeBase
 from app.config import get_settings
 
 settings = get_settings()
 
-# Create database engine
+# Create database engine (SQLite)
+# check_same_thread=False is needed for SQLite when using dependency injection
 engine = create_engine(
     settings.database_url,
-    pool_pre_ping=True,  # Verify connections before using
-    pool_size=5,
-    max_overflow=10
+    connect_args={"check_same_thread": False},
 )
 
 # Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+
 # Base class for models
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass
 
 
 def get_db():
-    """Dependency to get database session."""
     db = SessionLocal()
     try:
         yield db

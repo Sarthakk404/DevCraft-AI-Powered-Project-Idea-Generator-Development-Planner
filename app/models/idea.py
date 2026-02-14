@@ -39,6 +39,7 @@ class GeneratedIdea(Base):
     tech_stack = Column(JSON, nullable=True)
     roadmap = Column(JSON, nullable=True)
     learning_path = Column(JSON, nullable=True)
+    why_suitable = Column(Text, nullable=True)
     
     # Metadata
     is_selected = Column(Integer, default=0)  # 0 = not selected, 1 = selected

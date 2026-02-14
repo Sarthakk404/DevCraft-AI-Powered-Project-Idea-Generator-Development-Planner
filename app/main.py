@@ -24,7 +24,7 @@ app = FastAPI(
     description="""
 ## 🚀 AI-Powered Project Idea Generator & Development Planner
 
-DevCraft uses AI (Google Gemini) to generate personalized project ideas based on your:
+DevCraft uses AI (Groq - LLAMA 3.3) to generate personalized project ideas based on your:
 - **Skills** - What technologies you know
 - **Interests** - What domains excite you
 - **Experience Level** - Beginner, intermediate, or advanced
