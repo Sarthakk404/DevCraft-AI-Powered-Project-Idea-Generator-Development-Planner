@@ -45,7 +45,7 @@ DevCraft uses AI (Groq - LLAMA 3.3) to generate personalized project ideas based
 # CORS middleware for frontend access
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure for production
+    allow_origins=["https://dev-craft-ai-powered-project-idea-g.vercel.app/"],  # Configure for production
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
