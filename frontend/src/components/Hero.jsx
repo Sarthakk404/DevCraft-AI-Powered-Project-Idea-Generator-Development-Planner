@@ -12,7 +12,7 @@ export default function Hero() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-sm font-medium mb-8">
             <Sparkles size={16} />
-            <span>Powered by Google Gemini AI</span>
+            <span>Powered by Grok AI</span>
           </div>
           
           <h1 className="text-5xl sm:text-7xl font-bold mb-6 tracking-tight">
