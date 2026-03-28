@@ -3,10 +3,10 @@
 [![Python](https://img.shields.io/badge/Python-3.11+-blue.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.0+-61DAFB.svg?style=flat-square&logo=react&logoColor=black)](https://reactjs.org/)
-[![Groq](https://img.shields.io/badge/AI-Groq--LLAMA3.3-orange.svg?style=flat-square)](https://groq.com/)
+[![Gemini](https://img.shields.io/badge/AI-Google%20Gemini-4285F4.svg?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-**DevCraft** is a high-performance, full-stack application that transforms your skills and interests into a comprehensive development roadmap. Powered by **Groq** (LLAMA 3.3), it generates personalized project ideas and complete execution plans in seconds.
+**DevCraft** is a high-performance, full-stack application that transforms your skills and interests into a comprehensive development roadmap. Powered by **Google Gemini**, it generates personalized project ideas and complete execution plans in seconds.
 
 ---
 
@@ -27,7 +27,7 @@
 | **Frontend**  | React, Vite, TailwindCSS    |
 | **Backend**   | Python, FastAPI, SQLAlchemy |
 | **Database**  | SQLite (Local)              |
-| **AI Engine** | **Groq (LLAMA 3.3)**        |
+| **AI Engine** | **Google Gemini**           |
 
 ---
 
@@ -42,6 +42,7 @@ cd DevCraft
 
 # Create and activate virtual environment
 python -m venv venv
+
 # Windows:
 .\venv\Scripts\activate
 # Linux/macOS:
@@ -51,9 +52,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Configure Environment
-# Create a .env file and add your Groq API Key
-echo "GROQ_API_KEY=your_groq_key_here" > .env
-echo "GROQ_MODEL=llama-3.3-70b-versatile" >> .env
+# Create a .env file and add your Gemini API Key
+echo "GEMINI_API_KEY=your_gemini_key_here" > .env
+echo "GEMINI_MODEL=gemini-2.0-flash" >> .env
 
 # Run the API
 uvicorn app.main:app --reload
@@ -74,14 +75,14 @@ npm run dev
 1.  Visit `http://localhost:5173`.
 2.  Input your **Skills**, **Interests**, and **Experience Level**.
 3.  Define your **Goal** and **Time Availability**.
-4.  Hit **"Generate Project Plan"** and watch Groq architect your next project in real-time.
+4.  Hit **"Generate Project Plan"** and watch Gemini architect your next project in real-time.
 
 ---
 
 ## 🛡️ Troubleshooting
 
-- **API Key Error**: Ensure `GROQ_API_KEY` is set in your `.env` file.
-- **Model Not Found**: The default is `llama-3.3-70b-versatile`. Ensure your Groq account has access to this model.
+- **API Key Error**: Ensure `GEMINI_API_KEY` is set in your `.env` file.
+- **Model Not Found**: The default is `gemini-2.0-flash`. Ensure your Google AI account has access to this model.
 - **CORS Issues**: The backend defaults to allowing all origins (`*`) for local development.
 
 ---
