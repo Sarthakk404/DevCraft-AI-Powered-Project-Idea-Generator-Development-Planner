@@ -17,6 +17,14 @@ export const generateFullPlan = async (profile) => {
   return response.data;
 };
 
+export const expandIdea = async (profile, selectedIdea) => {
+  const response = await api.post('/idea/expand', {
+    profile,
+    selected_idea: selectedIdea
+  });
+  return response.data;
+};
+
 export const getIdeaDetails = async (id, profile) => {
   const response = await api.post(`/idea/${id}/details`, profile);
   return response.data;
