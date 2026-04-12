@@ -110,7 +110,7 @@ class TechStack(BaseModel):
     frontend: list[str] = Field(default_factory=list, examples=[["React", "TailwindCSS"]])
     backend: list[str] = Field(default_factory=list, examples=[["FastAPI", "Python"]])
     database: list[str] = Field(default_factory=list, examples=[["PostgreSQL"]])
-    tools: list[str] = Field(default_factory=list, examples=[["Docker", "Git"]])
+    tools: list[str] = Field(default_factory=list, examples=[["Git", "GitHub Actions"]])
     reasoning: Optional[str] = None
 
 

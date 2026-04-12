@@ -37,7 +37,7 @@ export default function FullPlan({ plan }) {
 
       {/* Features Grid */}
       <motion.div variants={item} className="grid md:grid-cols-2 gap-8">
-        <div className="card space-y-6">
+        <div className="glass-panel p-6 rounded-2xl space-y-6">
           <div className="flex items-center gap-3 text-indigo-400 mb-4">
             <Layers size={24} />
             <h3 className="text-xl font-bold">Core Features (MVP)</h3>
@@ -55,7 +55,7 @@ export default function FullPlan({ plan }) {
           </ul>
         </div>
 
-        <div className="card space-y-6">
+        <div className="glass-panel p-6 rounded-2xl space-y-6">
           <div className="flex items-center gap-3 text-pink-400 mb-4">
              <Layers size={24} />
             <h3 className="text-xl font-bold">Nice to Have</h3>
@@ -75,7 +75,7 @@ export default function FullPlan({ plan }) {
       </motion.div>
 
       {/* Tech Stack */}
-      <motion.div variants={item} className="card">
+      <motion.div variants={item} className="glass-panel p-8 rounded-3xl">
         <div className="flex items-center gap-3 text-blue-400 mb-8">
           <Cpu size={24} />
           <h3 className="text-xl font-bold">Recommended Tech Stack</h3>
@@ -116,7 +116,7 @@ export default function FullPlan({ plan }) {
           {roadmap.phases.map((phase, idx) => (
              <div key={idx} className="relative pl-8 border-l-2 border-slate-800 pb-8 last:pb-0">
                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-900 border-2 border-indigo-500" />
-               <div className="bg-slate-900/40 border border-slate-800 rounded-xl p-6 hover:border-indigo-500/50 transition-colors">
+               <div className="glass-panel p-6 rounded-2xl">
                  <div className="flex justify-between items-start mb-4">
                    <h4 className="text-lg font-bold text-white">Phase {phase.phase_number}: {phase.title}</h4>
                    <span className="text-sm font-mono text-indigo-300 bg-indigo-500/10 px-3 py-1 rounded-full">{phase.duration}</span>
@@ -147,7 +147,7 @@ export default function FullPlan({ plan }) {
 
        {/* Learning Path */}
       {learning_path.new_technologies.length > 0 && (
-        <motion.div variants={item} className="card bg-gradient-to-br from-indigo-900/20 to-purple-900/20 border-indigo-500/20">
+        <motion.div variants={item} className="glass-panel p-8 rounded-3xl bg-gradient-to-br from-[#9d4edd]/10 to-[#00f5ff]/10">
           <div className="flex items-center gap-3 text-purple-400 mb-6">
             <BookOpen size={24} />
             <h3 className="text-xl font-bold">Learning Requirements</h3>

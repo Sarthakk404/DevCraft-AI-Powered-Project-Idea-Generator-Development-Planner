@@ -1,170 +1,154 @@
-# DevCraft — AI-Powered Project Idea Generator & Development Planner
+<div align="center">
 
-> **Stop searching for project ideas.** DevCraft generates personalized project plans, tech stacks, and roadmaps tailored to your skills and goals — powered by **Google Gemini AI**.
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=200&section=header&text=DevCraft&fontSize=80&fontAlignY=35&desc=AI-Powered%20Project%20Idea%20Generator%20&descAlignY=60&descAlign=50" />
 
-![DevCraft](https://img.shields.io/badge/Powered%20by-Google%20Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white)
-![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+  **Stop searching. Start building.**  
+  *DevCraft generates hyper-personalized project plans, comprehensive tech stacks, and step-by-step roadmaps tailored strictly to your unique skill set and carrier ambitions — now supercharged by lightning-fast **Groq Llama 3.3 70B**.*
 
----
+  ### 🪐 The Ultimate Idea Generator for Modern Developers
 
-## ✨ How It Works
+  <p align="center">
+    <img src="https://img.shields.io/badge/Powered%20by-Groq%20Llama-black?style=for-the-badge&logo=ai&logoColor=f59e0b" alt="Groq Llama" />
+    <img src="https://img.shields.io/badge/Backend-FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+    <img src="https://img.shields.io/badge/Frontend-React%20%7C%20Vite-black?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+    <img src="https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  </p>
 
-DevCraft uses a **two-step AI flow** for a better experience:
-
-1. **📝 Tell us about yourself** — Select your skills, interests, experience level, goals, and available time
-2. **💡 Get project ideas** — Gemini generates 3-5 personalized project ideas
-3. **👆 Pick your favorite** — Select the idea that excites you most
-4. **🗺️ Get the full plan** — Gemini creates a complete development plan with:
-   - ✅ Feature breakdown (core MVP + nice-to-have)
-   - 🛠️ Tech stack recommendations with reasoning
-   - 📅 Development roadmap with phases, tasks & deliverables
-   - 📚 Learning path with curated resources
+</div>
 
 ---
 
-## 🏗️ Tech Stack
+## ✨ Experience The Magic: How It Works
 
-| Layer | Technology |
+DevCraft utilizes an elegant, **context-aware two-step AI flow** to generate bespoke engineering plans:
+
+1. **📝 Tell Us About Yourself**  
+   Input your tech arsenal, domains of interest, raw experience level, goals, and strict time constraints.
+2. **💡 Enter The Matrix**  
+   Our Groq-backed neural engine processes your profile to generate 3-5 high-converting, tailored project ideas instantly.
+3. **👆 Select Your Destiny**  
+   Pick the single project that ignites your passion via an immersive card portfolio.
+4. **🗺️ Unveil the Master Plan**  
+   Watch as the AI fabricates a comprehensive, enterprise-tier development plan in seconds:
+   - ✅ **MVP Feature Breakdown** *(Core capabilities vs Nice-to-Haves)*
+   - 🛠️ **Curated Tech Stack** *(Explicit front-to-back tooling with embedded reasoning)*
+   - 📅 **Strategic Roadmap** *(Phase-by-phase deliverables)*
+   - 📚 **Learning Path** *(Targeted, non-hallucinated resources)*
+
+---
+
+## 🏗️ Architecture Stack
+
+Engineered using modern, lightning-fast tools dedicated to maximum visual elegance and backend velocity.
+
+| Layer | Premium Technology Context |
 |-------|-----------|
-| **Frontend** | React 19, Vite, Framer Motion, Tailwind CSS v4, Lucide Icons |
-| **Backend** | FastAPI, Python 3.11+, Pydantic v2 |
-| **AI** | Google Gemini 2.0 Flash |
-| **Database** | PostgreSQL (NeonDB) |
-| **ORM** | SQLAlchemy 2.0 |
+| **Frontend UI** | **React 19** powered by **Vite**, deep interactions via **Framer Motion**, styled with **Tailwind CSS v4**, and **Lucide Icons** |
+| **Backend Core** | **FastAPI** utilizing **Python 3.11+**, strongly typed with **Pydantic v2** |
+| **Intelligence** | **Groq Llama 3.3 70B Versatile** *(JSON Mode via `groq` async SDK)* |
+| **Database** | Fully-Managed **PostgreSQL (NeonDB)** |
+| **Data Layer** | **SQLAlchemy 2.0 / pg8000** |
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Lift-Off
 
 ### Prerequisites
 
-- Python 3.11+
-- Node.js 18+
-- A [Google AI Studio API key](https://aistudio.google.com/apikey)
-- PostgreSQL database (or use [NeonDB](https://neon.tech) for free)
+- **Python 3.11+**
+- **Node.js 18+**
+- A High-Speed [Groq API key](https://console.groq.com/keys)
+- PostgreSQL database URL (or use [NeonDB](https://neon.tech) for a free instance)
 
-### 1. Clone the repository
+### 1. Initialize the Repository
 
 ```bash
 git clone https://github.com/Sarthakk404/DevCraft-AI-Powered-Project-Idea-Generator-Development-Planner.git
 cd DevCraft-AI-Powered-Project-Idea-Generator-Development-Planner
 ```
 
-### 2. Set up the backend
+### 2. Ignite the Backend Core
 
 ```bash
-# Create virtual environment
+# Form virtual environment network
 python -m venv venv
 
-# Activate it
+# Activate connection
 # Windows:
 venv\Scripts\activate
 # macOS/Linux:
 source venv/bin/activate
 
-# Install dependencies
+# Install essential dependencies
 pip install -r requirements.txt
 ```
 
-### 3. Configure environment variables
+### 3. Synchronize Environment Variables
 
-Copy `.env.example` to `.env` and fill in your values:
+Clone the environment template and embed your personal keys:
 
 ```bash
 cp .env.example .env
 ```
 
+*Inside `.env`:*
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
-GEMINI_MODEL=gemini-2.0-flash
+# Groq API keys required for hyper-fast generations
+GROQ_API_KEY=gsk_your_groq_api_key_here
+GROQ_MODEL=llama-3.3-70b-versatile
+
+# Database Tunnel
 DATABASE_URL=postgresql://user:password@host/dbname?sslmode=require
 MAX_IDEAS=5
 ```
 
-### 4. Start the backend
+### 4. Boot UP
 
 ```bash
 uvicorn app.main:app --reload
 ```
+> The API server initiates at `http://localhost:8000`. Full OpenAPI docs mapped at `http://localhost:8000/docs`.
 
-The API will be available at `http://localhost:8000` with interactive docs at `http://localhost:8000/docs`.
-
-### 5. Set up the frontend
+### 5. Launch the Client Interface
 
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-
-The frontend will be available at `http://localhost:5173`.
+> Discover your visually-luxurious UI live at `http://localhost:5173`.
 
 ---
 
-## 📡 API Endpoints
+## 📡 Core API Topography
 
-| Method | Endpoint | Description |
+| Method | Endpoint | Architectural Purpose |
 |--------|----------|-------------|
-| `POST` | `/api/v1/idea/generate` | Step 1: Generate 3-5 project ideas |
-| `POST` | `/api/v1/idea/expand` | Step 2: Expand selected idea into full plan |
-| `POST` | `/api/v1/idea/full-plan` | Legacy: One-shot full plan generation |
-| `GET` | `/api/v1/idea/{id}` | Get a specific idea by ID |
-| `POST` | `/api/v1/idea/{id}/details` | Get full plan for a saved idea |
-| `GET` | `/health` | Health check |
+| `POST` | `/api/v1/idea/generate` | Stage I: Generate 3-5 unique ideas mapped to user context |
+| `POST` | `/api/v1/idea/expand` | Stage II: Explode selected idea into an explicit engineering playbook |
+| `POST` | `/api/v1/idea/full-plan` | Legacy integration: Immediate A-Z end-to-end plan generation |
+| `GET`  | `/api/v1/idea/{id}` | Retrieve cached specific idea definition |
+| `POST` | `/api/v1/idea/{id}/details` | Rehydrate fully-saved comprehensive plan |
+| `GET`  | `/health` | Systems check |
 
 ---
 
-## 📁 Project Structure
+## 🎨 A Visually Luxurious Playground
 
-```
-DevCraft/
-├── app/                        # Backend (FastAPI)
-│   ├── api/v1/endpoints/       # API route handlers
-│   ├── models/                 # SQLAlchemy database models
-│   ├── schemas/                # Pydantic request/response schemas
-│   ├── services/               # Business logic & LLM integration
-│   ├── config.py               # App configuration
-│   ├── database.py             # Database connection
-│   └── main.py                 # FastAPI app entry point
-├── frontend/                   # Frontend (React + Vite)
-│   └── src/
-│       ├── components/         # React components
-│       │   ├── Hero.jsx        # Landing hero section
-│       │   ├── GeneratorForm.jsx # User profile form
-│       │   ├── IdeaPicker.jsx  # Idea selection cards
-│       │   ├── FullPlan.jsx    # Complete plan display
-│       │   └── Layout.jsx      # App shell (nav + footer)
-│       ├── services/api.js     # API client
-│       ├── App.jsx             # Main app with 3-stage flow
-│       └── index.css           # Design system & global styles
-├── .env.example                # Environment variable template
-├── requirements.txt            # Python dependencies
-└── README.md
-```
+DevCraft introduces an enterprise-grade dark-mode UI intentionally designed to stun:
+- **Dynamic Deep Space Backgrounds:** Multi-layered radial meshing casting an ambient indigo glow.
+- **Pure Glassmorphism Cards:** Intricate `.backdrop-blur-xl` layering providing heavy, premium depth overlays.
+- **Liquid Physics:** Component bounds breathe through subtle `scale` modulations and deep inner drop-shadow transitions.
+- **Cinematic Pacing:** Staggered entrance animations governed actively by Framer Motion. 
 
 ---
 
-## 🎨 Design
+## 📄 License & Intellectual Property
 
-DevCraft features a premium dark UI with:
-- Animated mesh gradient backgrounds
-- Glassmorphism cards with backdrop blur
-- Rotating gradient borders on selected elements
-- Staggered entrance animations via Framer Motion
-- Difficulty-coded badges (🌱 Beginner, ⚡ Intermediate, 🔥 Advanced)
-- Animated timeline with pulsing dots
-- Custom scrollbar styling
+This masterpiece is fully open source under the robust [MIT License](LICENSE).
 
 ---
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
----
-
-<p align="center">
-  Built with ❤️ by <a href="https://github.com/Sarthakk404">Sarthak</a>
-</p>
+<div align="center">
+  <p>Engineered to Perfection with ❤️ by <a href="https://github.com/Sarthakk404">Sarthak</a></p>
+</div>

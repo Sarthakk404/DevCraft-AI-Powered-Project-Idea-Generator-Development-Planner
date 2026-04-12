@@ -65,7 +65,7 @@ export default function IdeaPicker({ ideas, onSelect, onBack, isLoading }) {
                 className={`relative cursor-pointer rounded-2xl p-6 transition-all duration-300 group
                   ${isSelected
                     ? 'gradient-border active scale-[1.01]'
-                    : 'glass hover:border-white/[0.12]'
+                    : 'glass-panel edge-light hover:border-white/[0.12]'
                   }
                 `}
                 style={isSelected ? {
@@ -139,10 +139,10 @@ export default function IdeaPicker({ ideas, onSelect, onBack, isLoading }) {
       >
         <button
           onClick={onBack}
-          className="flex items-center gap-2 text-sm text-slate-500 hover:text-slate-300 transition-colors font-medium group"
+          className="btn-ghost flex items-center gap-2"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          Regenerate with different input
+          RECALIBRATE INPUT
         </button>
 
         <AnimatePresence>
@@ -153,7 +153,7 @@ export default function IdeaPicker({ ideas, onSelect, onBack, isLoading }) {
               exit={{ opacity: 0, scale: 0.9 }}
               onClick={handleConfirm}
               disabled={isLoading}
-              className="btn-gradient px-8 py-3.5 rounded-xl text-sm font-bold flex items-center gap-2.5 tracking-wide"
+              className="btn-magic text-sm font-bold tracking-widest flex items-center gap-2.5"
             >
               {isLoading ? (
                 <>

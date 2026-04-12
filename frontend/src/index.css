@@ -1,34 +1,160 @@
 @import "tailwindcss";
 
 :root {
-  --bg-dark: #0f172a;
-  --bg-card: #1e293b;
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --secondary: #ec4899;
+  --bg-deep: #050505;
+  --bg-dark: #0a0a0c;
+  --bg-card: rgba(20, 20, 24, 0.4);
+  --primary: #9d4edd;
+  --secondary: #00f5ff;
   --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border: #334155;
-  --gradient-main: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+  --text-muted: #8b8d98;
+  --border-light: rgba(255, 255, 255, 0.06);
+  --border-glow: rgba(157, 78, 221, 0.3);
 }
 
 @theme {
+  --color-bg-deep: var(--bg-deep);
   --color-bg-dark: var(--bg-dark);
   --color-bg-card: var(--bg-card);
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);
 }
 
+* {
+  scroll-behavior: smooth;
+}
+
 body {
-  background-color: var(--bg-dark);
+  background-color: var(--bg-deep);
   color: var(--text-main);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+  /* Deep interactive ambient breathing aura */
+  background-image: 
+    radial-gradient(ellipse at 20% 0%, rgba(157, 78, 221, 0.15), transparent 40vw),
+    radial-gradient(ellipse at 80% 100%, rgba(0, 245, 255, 0.1), transparent 40vw),
+    radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.05), transparent 50vw);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  animation: bg-breathe 20s ease-in-out infinite alternate;
 }
 
+@keyframes bg-breathe {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Superior Typography */
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 to-pink-500;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-[#9d4edd] via-[#c77dff] to-[#00f5ff] drop-shadow-[0_0_15px_rgba(157,78,221,0.2)];
 }
 
-.card {
-    @apply bg-slate-900 border border-slate-800 rounded-xl p-6 transition-all hover:border-indigo-500/50;
+.text-cinematic {
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+/* The Glass Construct */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border-light);
+  box-shadow: 
+    0 4px 24px -1px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel:hover {
+  background: rgba(30, 30, 36, 0.5);
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px -4px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 40px -10px rgba(157, 78, 221, 0.15);
+}
+
+/* Inner Edge Lighting */
+.edge-light {
+  position: relative;
+  overflow: hidden;
+}
+.edge-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+
+/* Interactive Futuristic Form Elements */
+.input-premium {
+  @apply w-full bg-[#0d0d12] border border-white/5 rounded-xl px-5 py-3.5 text-white placeholder-slate-500 transition-all duration-300 outline-none;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+.input-premium:focus {
+  @apply border-[#9d4edd]/50 bg-[#12121a];
+  box-shadow: 0 0 20px -2px rgba(157, 78, 221, 0.2), inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Select element overrides */
+select.input-premium {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Beautiful Ghost Buttons */
+.btn-ghost {
+  @apply relative overflow-hidden bg-transparent border border-white/10 rounded-xl px-5 py-2.5 text-sm font-medium text-slate-300 transition-all duration-300 hover:text-white hover:border-white/20 hover:bg-white/5;
+}
+
+/* AI Magic Buttons */
+.btn-magic {
+  @apply relative overflow-hidden bg-white text-black font-semibold rounded-xl px-8 py-4 transition-all duration-300;
+  box-shadow: 0 0 40px -10px rgba(255, 255, 255, 0.3);
+}
+
+.btn-magic:hover {
+  @apply -translate-y-1 scale-[1.02];
+  box-shadow: 0 0 50px -5px rgba(255, 255, 255, 0.5);
+}
+
+.btn-magic::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.8), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  20% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Beautiful Badges */
+.badge {
+  @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-[0.1em] uppercase backdrop-blur-md;
+}
+
+.badge-beginner {
+  @apply bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_-5px_rgba(16,185,129,0.2)];
+}
+
+.badge-intermediate {
+  @apply bg-amber-500/10 text-amber-400 border border-amber-500/20 shadow-[0_0_15px_-5px_rgba(245,158,11,0.2)];
+}
+
+.badge-advanced {
+  @apply bg-[#9d4edd]/10 text-[#c77dff] border border-[#9d4edd]/30 shadow-[0_0_15px_-5px_rgba(157,78,221,0.3)];
 }

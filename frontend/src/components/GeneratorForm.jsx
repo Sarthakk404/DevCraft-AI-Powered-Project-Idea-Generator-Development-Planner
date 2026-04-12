@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Loader2, Plus, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Loader2, Plus, X, Search } from 'lucide-react';
 
-const SKILLS = ["Python", "JavaScript", "React", "FastAPI", "Node.js", "Java", "C++", "SQL", "Docker", "AWS"];
+const SKILLS = ["Python", "JavaScript", "React", "FastAPI", "Node.js", "Java", "C++", "SQL", "AWS"];
 const INTERESTS = ["AI/ML", "Web Dev", "Mobile", "Blockchain", "DevOps", "Game Dev", "Cybersecurity", "Data Science"];
 const GOAL_OPTIONS = [
   { value: "learn", label: "Learn New Tech" },
@@ -24,7 +24,6 @@ export default function GeneratorForm({ onSubmit, isLoading }) {
   
   const [customSkill, setCustomSkill] = useState("");
   const [customInterest, setCustomInterest] = useState("");
-  
   const [timeValue, setTimeValue] = useState("1");
   const [timeUnit, setTimeUnit] = useState("Months");
 
@@ -54,216 +53,204 @@ export default function GeneratorForm({ onSubmit, isLoading }) {
       goal: formData.goal === "other" ? formData.custom_goal : formData.goal,
       time_available: `${timeValue} ${timeUnit}`
     };
-    // Remove temporary field before submitting
     delete finalData.custom_goal;
-    
     onSubmit(finalData);
   };
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-      className="max-w-2xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl"
-    >
-      <form onSubmit={handleSubmit} className="space-y-8">
-        {/* Skills */}
-        <div className="space-y-3">
-          <label className="text-sm font-semibold text-slate-300 uppercase tracking-wider">Your Skills</label>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {SKILLS.map(skill => (
-              <button
-                key={skill}
-                type="button"
-                onClick={() => toggleSelection('skills', skill)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  formData.skills.includes(skill)
-                    ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30'
-                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                }`}
-              >
-                {skill}
-              </button>
-            ))}
-            {/* Display custom added skills */}
-            {formData.skills.filter(s => !SKILLS.includes(s)).map(skill => (
-              <button
-                key={skill}
-                type="button"
-                onClick={() => toggleSelection('skills', skill)}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 flex items-center gap-2"
-              >
-                {skill} <X size={14} />
-              </button>
-            ))}
-          </div>
-          {/* Custom Skill Input */}
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Add custom skill..."
-              className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              value={customSkill}
-              onChange={(e) => setCustomSkill(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomItem('skills', customSkill, setCustomSkill))}
-            />
-            <button
-              type="button"
-              onClick={() => addCustomItem('skills', customSkill, setCustomSkill)}
-              className="bg-slate-700 hover:bg-slate-600 text-white p-2 rounded-lg transition-colors"
-            >
-              <Plus size={20} />
-            </button>
-          </div>
-        </div>
+    <div className="max-w-3xl mx-auto">
+      <div className="glass-panel rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+        {/* Ambient Top Glow in Panel */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-[#9d4edd] opacity-10 blur-[80px] pointer-events-none" />
 
-        {/* Interests */}
-        <div className="space-y-3">
-          <label className="text-sm font-semibold text-slate-300 uppercase tracking-wider">Interests</label>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {INTERESTS.map(item => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => toggleSelection('interests', item)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  formData.interests.includes(item)
-                    ? 'bg-pink-600 text-white shadow-lg shadow-pink-500/30'
-                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-             {/* Display custom added interests */}
-             {formData.interests.filter(i => !INTERESTS.includes(i)).map(item => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => toggleSelection('interests', item)}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all bg-pink-600 text-white shadow-lg shadow-pink-500/30 flex items-center gap-2"
-              >
-                {item} <X size={14} />
-              </button>
-            ))}
-          </div>
-          {/* Custom Interest Input */}
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Add custom interest..."
-              className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-pink-500"
-              value={customInterest}
-              onChange={(e) => setCustomInterest(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomItem('interests', customInterest, setCustomInterest))}
-            />
-            <button
-              type="button"
-              onClick={() => addCustomItem('interests', customInterest, setCustomInterest)}
-              className="bg-slate-700 hover:bg-slate-600 text-white p-2 rounded-lg transition-colors"
-            >
-              <Plus size={20} />
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm font-semibold text-slate-300">Experience Level</label>
-            <select 
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white"
-              value={formData.experience_level}
-              onChange={(e) => setFormData({...formData, experience_level: e.target.value})}
-            >
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-semibold text-slate-300">Goal</label>
-            <select 
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white"
-              value={formData.goal}
-              onChange={(e) => setFormData({...formData, goal: e.target.value})}
-            >
-              {GOAL_OPTIONS.map(opt => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
+        <form onSubmit={handleSubmit} className="relative z-10 space-y-10">
+          
+          {/* Skills Section */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Technical Arsenal</h3>
+            <div className="flex flex-wrap gap-2.5">
+              {SKILLS.map(skill => (
+                <button
+                  key={skill}
+                  type="button"
+                  onClick={() => toggleSelection('skills', skill)}
+                  className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    formData.skills.includes(skill)
+                      ? 'bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105'
+                      : 'bg-[#12121a] text-slate-400 border border-white/5 hover:border-white/20 hover:text-white'
+                  }`}
+                >
+                  {skill}
+                </button>
               ))}
-              <option value="other">Other (Custom)</option>
-            </select>
+              {formData.skills.filter(s => !SKILLS.includes(s)).map(skill => (
+                <button
+                  key={skill}
+                  type="button"
+                  onClick={() => toggleSelection('skills', skill)}
+                  className="px-5 py-2.5 rounded-full text-sm font-semibold bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] scale-105 flex items-center gap-2 transition-all"
+                >
+                  {skill} <X size={14} className="opacity-60 hover:opacity-100" />
+                </button>
+              ))}
+            </div>
             
-            {formData.goal === "other" && (
-              <motion.input
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
+            <div className="relative mt-2">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <Search size={16} className="text-slate-500" />
+              </div>
+              <input
                 type="text"
-                placeholder="Describe your goal..."
-                className="w-full mt-2 bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white"
-                value={formData.custom_goal}
-                onChange={(e) => setFormData({...formData, custom_goal: e.target.value})}
-                required
+                placeholder="Search or add custom skills..."
+                className="input-premium pl-10"
+                value={customSkill}
+                onChange={(e) => setCustomSkill(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomItem('skills', customSkill, setCustomSkill))}
               />
-            )}
+            </div>
           </div>
-        </div>
-        
-        <div className="space-y-2">
-           <label className="text-sm font-semibold text-slate-300">Time Available</label>
-           <div className="flex gap-4">
-             <div className="flex-1">
-               <select 
-                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white"
-                 value={timeValue}
-                 onChange={(e) => setTimeValue(e.target.value)}
-               >
-                 {/* Generate options based on unit */}
-                 {Array.from({ length: 
-                   timeUnit === 'Days' ? 31 : 
-                   timeUnit === 'Weeks' ? 12 : 
-                   timeUnit === 'Months' ? 24 : 
-                   5 
-                 }, (_, i) => i + 1).map(num => (
-                   <option key={num} value={num}>{num}</option>
-                 ))}
-               </select>
-             </div>
-             <div className="flex-1">
-               <select 
-                 className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all text-white"
-                 value={timeUnit}
-                 onChange={(e) => {
-                    setTimeUnit(e.target.value);
-                    setTimeValue("1"); // Reset value when unit changes to avoid out of bounds
-                 }}
-               >
-                 <option value="Days">Days</option>
-                 <option value="Weeks">Weeks</option>
-                 <option value="Months">Months</option>
-                 <option value="Years">Years</option>
-               </select>
-             </div>
-           </div>
-        </div>
 
-        <button
-          type="submit"
-          disabled={isLoading || formData.skills.length === 0 || formData.interests.length === 0 || (formData.goal === "other" && !formData.custom_goal)}
-          className="w-full bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold py-4 rounded-xl shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="animate-spin" /> Generating Magic...
-            </>
-          ) : (
-            <>
-              Generate Project Plan <ArrowRight size={20} />
-            </>
-          )}
-        </button>
-      </form>
-    </motion.div>
+          {/* Interests Section */}
+          <div className="space-y-4">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-[#00f5ff]/70">Target Domains</h3>
+            <div className="flex flex-wrap gap-2.5">
+              {INTERESTS.map(item => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => toggleSelection('interests', item)}
+                  className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    formData.interests.includes(item)
+                      ? 'bg-[#00f5ff]/10 text-[#00f5ff] border border-[#00f5ff]/40 shadow-[0_0_20px_rgba(0,245,255,0.2)] scale-105'
+                      : 'bg-[#12121a] text-slate-400 border border-white/5 hover:border-[#00f5ff]/20 hover:text-[#00f5ff]'
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+              {formData.interests.filter(i => !INTERESTS.includes(i)).map(item => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => toggleSelection('interests', item)}
+                  className="px-5 py-2.5 rounded-full text-sm font-semibold bg-[#00f5ff]/10 text-[#00f5ff] border border-[#00f5ff]/40 shadow-[0_0_20px_rgba(0,245,255,0.2)] scale-105 flex items-center gap-2 transition-all"
+                >
+                  {item} <X size={14} className="opacity-60 hover:opacity-100" />
+                </button>
+              ))}
+            </div>
+            <div className="relative mt-2">
+              <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                <Search size={16} className="text-slate-500" />
+              </div>
+              <input
+                type="text"
+                placeholder="Search or add custom domains..."
+                className="input-premium pl-10"
+                value={customInterest}
+                onChange={(e) => setCustomInterest(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCustomItem('interests', customInterest, setCustomInterest))}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 border-t border-white/5">
+            <div className="space-y-3">
+              <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Experience Tier</label>
+              <select 
+                className="input-premium"
+                value={formData.experience_level}
+                onChange={(e) => setFormData({...formData, experience_level: e.target.value})}
+              >
+                <option value="beginner">Initiate (Beginner)</option>
+                <option value="intermediate">Operative (Intermediate)</option>
+                <option value="advanced">Architect (Advanced)</option>
+              </select>
+            </div>
+
+            <div className="space-y-3">
+              <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Primary Objective</label>
+              <select 
+                className="input-premium"
+                value={formData.goal}
+                onChange={(e) => setFormData({...formData, goal: e.target.value})}
+              >
+                {GOAL_OPTIONS.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+                <option value="other">Custom Initialization</option>
+              </select>
+              
+              <AnimatePresence>
+                {formData.goal === "other" && (
+                  <motion.input
+                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                    animate={{ opacity: 1, height: "auto", marginTop: 12 }}
+                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                    type="text"
+                    placeholder="Specify exact custom objective..."
+                    className="input-premium"
+                    value={formData.custom_goal}
+                    onChange={(e) => setFormData({...formData, custom_goal: e.target.value})}
+                    required
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+          
+          <div className="space-y-3">
+             <label className="text-xs font-bold uppercase tracking-widest text-slate-400">Temporal Constraint (Timeboxing)</label>
+             <div className="flex gap-4">
+                 <select 
+                   className="input-premium flex-1"
+                   value={timeValue}
+                   onChange={(e) => setTimeValue(e.target.value)}
+                 >
+                   {Array.from({ length: 
+                     timeUnit === 'Days' ? 31 : 
+                     timeUnit === 'Weeks' ? 12 : 
+                     timeUnit === 'Months' ? 24 : 5 
+                   }, (_, i) => i + 1).map(num => (
+                     <option key={num} value={num}>{num}</option>
+                   ))}
+                 </select>
+                 <select 
+                   className="input-premium flex-1"
+                   value={timeUnit}
+                   onChange={(e) => {
+                      setTimeUnit(e.target.value);
+                      setTimeValue("1");
+                   }}
+                 >
+                   <option value="Days">Days</option>
+                   <option value="Weeks">Weeks</option>
+                   <option value="Months">Months</option>
+                   <option value="Years">Years</option>
+                 </select>
+             </div>
+          </div>
+
+          <div className="pt-6">
+            <button
+              type="submit"
+              disabled={isLoading || formData.skills.length === 0 || formData.interests.length === 0 || (formData.goal === "other" && !formData.custom_goal)}
+              className="btn-magic w-full flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="animate-spin" size={20} /> SYNTHESIZING...
+                </>
+              ) : (
+                <>
+                  INITIALIZE GENERATION <ArrowRight size={20} />
+                </>
+              )}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
   );
 }
