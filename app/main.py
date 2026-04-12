@@ -11,11 +11,9 @@ settings = get_settings()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup and shutdown events."""
-    # Startup: Create database tables
     Base.metadata.create_all(bind=engine)
     print("✅ Database tables created")
     yield
-    # Shutdown: cleanup if needed
     print("👋 Shutting down DevCraft")
 
 
@@ -24,25 +22,28 @@ app = FastAPI(
     description="""
 ## 🚀 AI-Powered Project Idea Generator & Development Planner
 
-DevCraft uses AI (Groq - LLAMA 3.3) to generate personalized project ideas based on your:
-- **Skills** - What technologies you know
-- **Interests** - What domains excite you
-- **Experience Level** - Beginner, intermediate, or advanced
-- **Goals** - Learning, portfolio, startup, or hackathon
-- **Time Available** - How long you have to build
+DevCraft uses **Groq Llama** AI to generate personalized project ideas based on your:
+- **Skills** — What technologies you know
+- **Interests** — What domains excite you
+- **Experience Level** — Beginner, intermediate, or advanced
+- **Goals** — Learning, portfolio, startup, or hackathon
+- **Time Available** — How long you have to build
 
-### Features
-- 🎯 Personalized project idea generation
+### How It Works
+1. 🎯 **Step 1:** Submit your profile → Get 3-5 personalized project ideas
+2. ✅ **Step 2:** Pick the idea you love → Get a complete development plan
+
+### What You Get
 - 📋 Feature breakdown and prioritization
-- 🛠️ Tech stack recommendations
-- 🗺️ Development roadmap with phases
-- 📚 Learning path for new technologies
+- 🛠️ Tech stack recommendations with reasoning
+- 🗺️ Development roadmap with phases and deliverables
+- 📚 Learning path for new technologies with resources
     """,
-    version="0.1.0",
-    lifespan=lifespan
+    version=settings.app_version,
+    lifespan=lifespan,
 )
 
-# CORS middleware for frontend access
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -66,15 +67,17 @@ def root():
         "message": "Welcome to DevCraft API 🚀",
         "docs": "/docs",
         "version": settings.app_version,
+        "powered_by": "Groq Llama",
         "endpoints": {
             "generate_ideas": "POST /api/v1/idea/generate",
+            "expand_idea": "POST /api/v1/idea/expand",
             "full_plan": "POST /api/v1/idea/full-plan",
-            "idea_details": "POST /api/v1/idea/{idea_id}/details"
-        }
+            "idea_details": "POST /api/v1/idea/{idea_id}/details",
+        },
     }
 
 
 @app.get("/health")
 def health_check():
     """Health check endpoint."""
-    return {"status": "healthy", "service": "DevCraft"}
+    return {"status": "healthy", "service": "DevCraft", "version": settings.app_version}

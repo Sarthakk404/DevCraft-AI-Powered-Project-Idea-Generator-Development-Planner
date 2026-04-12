@@ -1,22 +1,19 @@
 import logging
 import json
 import asyncio
-from openai import AsyncOpenAI
+from groq import AsyncGroq
 from app.config import get_settings
-from app.schemas.idea import (
-    UserProfileRequest,
-    ProjectIdea,
-)
+from app.schemas.idea import UserProfileRequest, ProjectIdea
 
 settings = get_settings()
 logger = logging.getLogger(__name__)
 
+
 class LLMService:
-    """Service for interacting with Groq API (OpenAI-compatible)."""
+    """Service for interacting with Groq Llama API."""
 
     def __init__(self):
         self._client = None
-        self.model = settings.groq_model
 
     @property
     def client(self):
@@ -26,27 +23,23 @@ class LLMService:
                 raise RuntimeError(
                     "GROQ_API_KEY is not set. Add it to your .env file."
                 )
-            self._client = AsyncOpenAI(
-                api_key=settings.groq_api_key,
-                base_url="https://api.groq.com/openai/v1",
-            )
+            self._client = AsyncGroq(api_key=settings.groq_api_key)
         return self._client
 
     async def _generate_json(self, prompt: str) -> dict:
         """Generate JSON response from Groq with retry logic."""
         max_retries = 3
-        
+
         for attempt in range(max_retries):
             try:
                 response = await self.client.chat.completions.create(
-                    model=self.model,
+                    model=settings.groq_model,
                     messages=[
-                        {"role": "system", "content": "You are an expert project architect. Always return valid JSON."},
                         {"role": "user", "content": prompt}
                     ],
-                    response_format={"type": "json_object"}
+                    response_format={"type": "json_object"},
+                    temperature=0.9,
                 )
-                
                 content = response.choices[0].message.content
                 result = json.loads(content)
                 logger.info("Groq returned valid JSON response")
@@ -58,56 +51,180 @@ class LLMService:
                     wait_time = (attempt + 1) * 2
                     await asyncio.sleep(wait_time)
                     continue
-                
+
                 raise RuntimeError(
                     f"Failed to generate valid JSON from Groq after {max_retries} attempts: {e}"
                 )
 
-    async def generate_project_ideas(self, profile: UserProfileRequest) -> list[ProjectIdea]:
+    async def generate_project_ideas(
+        self, profile: UserProfileRequest
+    ) -> list[ProjectIdea]:
         """Generate personalized project ideas based on user profile."""
         goal_str = str(profile.goal)
 
-        prompt = f"""Expert mentor. Generate {settings.max_ideas} project ideas:
-User: {', '.join(profile.skills)} | {', '.join(profile.interests)} | {profile.experience_level.value} | {goal_str} | {profile.time_available}
-Prefs: {profile.preferences or 'None'}
+        prompt = f"""You are an expert software mentor and project architect.
 
-Reqs: Match level/interests, completable in {profile.time_available}.
-JSON array ONLY:
+Generate exactly {settings.max_ideas} unique and creative project ideas for this developer:
+
+**Developer Profile:**
+- Skills: {', '.join(profile.skills)}
+- Interests: {', '.join(profile.interests)}
+- Experience Level: {profile.experience_level.value}
+- Goal: {goal_str}
+- Time Available: {profile.time_available}
+- Preferences: {profile.preferences or 'None specified'}
+
+**Requirements:**
+- Each idea must match the developer's experience level
+- Ideas should align with their interests and leverage their skills
+- Projects must be completable within {profile.time_available}
+- Include a mix of practical and creative ideas
+- Each idea should be distinct from the others
+
+Return a JSON object with this exact structure:
 {{
   "ideas": [
     {{
-      "title": "Title",
-      "description": "2-3 sentences",
+      "title": "Short, catchy project title",
+      "description": "2-3 sentence description of what the project does and its value",
       "difficulty": "Beginner|Intermediate|Advanced",
-      "estimated_time": "Duration",
-      "why_suitable": "Reasoning"
+      "estimated_time": "Realistic time estimate",
+      "why_suitable": "1-2 sentences on why this matches the developer's profile"
     }}
   ]
 }}"""
         data = await self._generate_json(prompt)
         return [ProjectIdea(**idea) for idea in data.get("ideas", [])]
 
-    async def generate_complete_plan_one_shot(self, profile: UserProfileRequest) -> dict:
+    async def generate_complete_plan_one_shot(
+        self, profile: UserProfileRequest
+    ) -> dict:
         """Generate the entire project plan in a single LLM call."""
         goal_str = str(profile.goal)
 
-        prompt = f"""Expert architect. Create COMPLETE plan. 
-User: {', '.join(profile.skills)} | {', '.join(profile.interests)} | {profile.experience_level.value} | Goal: {goal_str} | Time: {profile.time_available}
-Prefs: {profile.preferences or 'None'}
+        prompt = f"""You are an expert software architect. Create a COMPLETE project plan.
 
-Constraint: Fully completable in {profile.time_available}. 
-Return ONLY JSON:
+**Developer Profile:**
+- Skills: {', '.join(profile.skills)}
+- Interests: {', '.join(profile.interests)}
+- Experience Level: {profile.experience_level.value}
+- Goal: {goal_str}
+- Time Available: {profile.time_available}
+- Preferences: {profile.preferences or 'None specified'}
+
+**Constraint:** The project must be fully completable in {profile.time_available}.
+
+Return ONLY a JSON object with this exact structure:
 {{
-  "idea": {{ "title": "Title", "description": "Desc", "difficulty": "Level", "estimated_time": "{profile.time_available}", "why_suitable": "Why" }},
-  "features": {{
-    "core_features": [{{ "name": "Name", "description": "Desc", "priority": "core" }}],
-    "nice_to_have": [{{ "name": "Name", "description": "Desc", "priority": "nice-to-have" }}]
+  "idea": {{
+    "title": "Project Title",
+    "description": "Detailed description",
+    "difficulty": "Beginner|Intermediate|Advanced",
+    "estimated_time": "{profile.time_available}",
+    "why_suitable": "Why this fits the developer"
   }},
-  "tech_stack": {{ "frontend": ["Tech"], "backend": ["Tech"], "database": ["Tech"], "tools": ["Tech"], "reasoning": "Why" }},
-  "roadmap": {{ "total_duration": "{profile.time_available}", "phases": [{{ "phase_number": 1, "title": "Phase", "duration": "Duration", "tasks": ["Task"], "deliverables": ["Items"] }}] }},
-  "learning_path": {{ "new_technologies": ["Tech"], "resources": [{{ "topic": "Tech", "resource_type": "video", "title": "Title", "url": "URL", "estimated_time": "Hours" }}] }}
+  "features": {{
+    "core_features": [{{ "name": "Feature Name", "description": "What it does", "priority": "core" }}],
+    "nice_to_have": [{{ "name": "Feature Name", "description": "What it does", "priority": "nice-to-have" }}]
+  }},
+  "tech_stack": {{
+    "frontend": ["Technology"],
+    "backend": ["Technology"],
+    "database": ["Technology"],
+    "tools": ["Technology"],
+    "reasoning": "Why this stack was chosen"
+  }},
+  "roadmap": {{
+    "total_duration": "{profile.time_available}",
+    "phases": [{{
+      "phase_number": 1,
+      "title": "Phase Title",
+      "duration": "Time for this phase",
+      "tasks": ["Specific task 1", "Specific task 2"],
+      "deliverables": ["What's delivered"]
+    }}]
+  }},
+  "learning_path": {{
+    "new_technologies": ["Tech to learn"],
+    "resources": [{{
+      "topic": "Technology",
+      "resource_type": "video|article|course|documentation",
+      "title": "Resource Title",
+      "url": "https://...",
+      "estimated_time": "Time to complete"
+    }}]
+  }}
 }}"""
         return await self._generate_json(prompt)
+
+    async def expand_idea_to_full_plan(
+        self, profile: UserProfileRequest, selected_idea: dict
+    ) -> dict:
+        """Generate a full project plan for a specific selected idea."""
+        goal_str = str(profile.goal)
+
+        prompt = f"""You are an expert software architect. The developer has chosen a project idea.
+Create a COMPLETE development plan for this specific project.
+
+**Developer Profile:**
+- Skills: {', '.join(profile.skills)}
+- Interests: {', '.join(profile.interests)}
+- Experience Level: {profile.experience_level.value}
+- Goal: {goal_str}
+- Time Available: {profile.time_available}
+- Preferences: {profile.preferences or 'None specified'}
+
+**Selected Project:**
+- Title: {selected_idea['title']}
+- Description: {selected_idea['description']}
+- Difficulty: {selected_idea.get('difficulty', 'Intermediate')}
+- Estimated Time: {selected_idea.get('estimated_time', profile.time_available)}
+
+**Constraint:** The plan must be achievable within {profile.time_available}.
+
+Return ONLY a JSON object with this exact structure:
+{{
+  "idea": {{
+    "title": "{selected_idea['title']}",
+    "description": "{selected_idea['description']}",
+    "difficulty": "{selected_idea.get('difficulty', 'Intermediate')}",
+    "estimated_time": "{selected_idea.get('estimated_time', profile.time_available)}",
+    "why_suitable": "Why this project fits the developer"
+  }},
+  "features": {{
+    "core_features": [{{ "name": "Feature Name", "description": "Detailed description of the feature", "priority": "core" }}],
+    "nice_to_have": [{{ "name": "Feature Name", "description": "Detailed description", "priority": "nice-to-have" }}]
+  }},
+  "tech_stack": {{
+    "frontend": ["Technology"],
+    "backend": ["Technology"],
+    "database": ["Technology"],
+    "tools": ["Tool"],
+    "reasoning": "Detailed explanation of why this stack was chosen for this specific project"
+  }},
+  "roadmap": {{
+    "total_duration": "{profile.time_available}",
+    "phases": [{{
+      "phase_number": 1,
+      "title": "Phase Title",
+      "duration": "Duration",
+      "tasks": ["Specific task"],
+      "deliverables": ["Deliverable"]
+    }}]
+  }},
+  "learning_path": {{
+    "new_technologies": ["Technologies the developer needs to learn"],
+    "resources": [{{
+      "topic": "Technology",
+      "resource_type": "video|article|course|documentation",
+      "title": "Resource Title",
+      "url": "https://...",
+      "estimated_time": "Time estimate"
+    }}]
+  }}
+}}"""
+        return await self._generate_json(prompt)
+
 
 # Singleton instance
 llm_service = LLMService()

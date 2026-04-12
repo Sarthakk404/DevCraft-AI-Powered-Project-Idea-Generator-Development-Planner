@@ -24,37 +24,52 @@ class ProjectGoal(str, Enum):
 class UserProfileRequest(BaseModel):
     """User input for generating project ideas."""
     skills: list[str] = Field(
-        ..., 
+        ...,
         min_length=1,
-        example=["Python", "JavaScript", "SQL"],
+        examples=[["Python", "JavaScript", "SQL"]],
         description="Technical skills the user has"
     )
     interests: list[str] = Field(
-        ..., 
+        ...,
         min_length=1,
-        example=["AI/ML", "Web Development", "Mobile Apps"],
+        examples=[["AI/ML", "Web Development", "Mobile Apps"]],
         description="Areas of interest"
     )
     experience_level: ExperienceLevel = Field(
-        ..., 
-        example="intermediate",
+        ...,
+        examples=["intermediate"],
         description="Overall experience level"
     )
     goal: str = Field(
-        ..., 
-        example="portfolio",
+        ...,
+        examples=["portfolio"],
         description="Purpose of the project"
     )
     time_available: str = Field(
-        ..., 
-        example="2 weeks",
+        ...,
+        examples=["2 weeks"],
         description="Time available to complete the project"
     )
     preferences: Optional[str] = Field(
-        None, 
-        example="I want to learn something new with AI",
+        None,
+        examples=["I want to learn something new with AI"],
         description="Any specific preferences or requirements"
     )
+
+
+class SelectedIdea(BaseModel):
+    """The idea the user selected from the suggestions."""
+    title: str
+    description: str
+    difficulty: str = "Intermediate"
+    estimated_time: str = ""
+    why_suitable: str = ""
+
+
+class ExpandIdeaRequest(BaseModel):
+    """Request to expand a selected idea into a full project plan."""
+    profile: UserProfileRequest
+    selected_idea: SelectedIdea
 
 
 class IdeaSelectionRequest(BaseModel):
@@ -67,11 +82,11 @@ class IdeaSelectionRequest(BaseModel):
 class ProjectIdea(BaseModel):
     """A single project idea."""
     id: Optional[int] = None
-    title: str = Field(..., example="AI-Powered Resume Analyzer")
-    description: str = Field(..., example="Build a web app that uses NLP to analyze resumes...")
-    difficulty: str = Field(..., example="Intermediate")
-    estimated_time: str = Field(..., example="2-3 weeks")
-    why_suitable: str = Field(..., example="Matches your Python and AI interests...")
+    title: str = Field(..., examples=["AI-Powered Resume Analyzer"])
+    description: str = Field(..., examples=["Build a web app that uses NLP to analyze resumes..."])
+    difficulty: str = Field(..., examples=["Intermediate"])
+    estimated_time: str = Field(..., examples=["2-3 weeks"])
+    why_suitable: str = Field(..., examples=["Matches your Python and AI interests..."])
 
     class Config:
         from_attributes = True
@@ -92,10 +107,10 @@ class FeatureBreakdown(BaseModel):
 
 class TechStack(BaseModel):
     """Technology stack recommendation."""
-    frontend: list[str] = Field(default_factory=list, example=["React", "TailwindCSS"])
-    backend: list[str] = Field(default_factory=list, example=["FastAPI", "Python"])
-    database: list[str] = Field(default_factory=list, example=["PostgreSQL"])
-    tools: list[str] = Field(default_factory=list, example=["Docker", "Git"])
+    frontend: list[str] = Field(default_factory=list, examples=[["React", "TailwindCSS"]])
+    backend: list[str] = Field(default_factory=list, examples=[["FastAPI", "Python"]])
+    database: list[str] = Field(default_factory=list, examples=[["PostgreSQL"]])
+    tools: list[str] = Field(default_factory=list, examples=[["Docker", "Git"]])
     reasoning: Optional[str] = None
 
 
@@ -129,7 +144,7 @@ class LearningPath(BaseModel):
     resources: list[Resource]
 
 
-# ============ Combined Response ============
+# ============ Combined Responses ============
 
 class GenerateIdeasResponse(BaseModel):
     """Response with generated project ideas."""

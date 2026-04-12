@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.schemas.idea import (
     UserProfileRequest,
+    ExpandIdeaRequest,
     GenerateIdeasResponse,
     FullProjectPlanResponse,
     ProjectIdea,
@@ -20,7 +21,7 @@ async def generate_ideas(
     db: Session = Depends(get_db),
 ):
     """
-    Generate personalized project ideas based on user profile.
+    Step 1: Generate personalized project ideas based on user profile.
 
     Returns a list of 3-5 project ideas tailored to the user's
     skills, interests, experience level, goals, and time availability.
@@ -33,16 +34,38 @@ async def generate_ideas(
         raise HTTPException(status_code=500, detail=f"Error generating ideas: {e}")
 
 
+@router.post("/expand", response_model=FullProjectPlanResponse)
+async def expand_idea(
+    request: ExpandIdeaRequest,
+    db: Session = Depends(get_db),
+):
+    """
+    Step 2: Expand a selected idea into a complete project plan.
+
+    Takes the user profile and their selected idea, then generates
+    a full development plan with features, tech stack, roadmap,
+    and learning path tailored to that specific project.
+    """
+    try:
+        plan = await idea_service.expand_idea_to_plan(db, request)
+        return plan
+    except Exception as e:
+        logger.exception("Error expanding idea to plan")
+        raise HTTPException(
+            status_code=500, detail=f"Error generating plan: {e}"
+        )
+
+
 @router.post("/full-plan", response_model=FullProjectPlanResponse)
 async def generate_full_plan(
     profile: UserProfileRequest,
     db: Session = Depends(get_db),
 ):
     """
-    Generate a complete project plan in one call.
+    Generate a complete project plan in one call (legacy).
 
     This endpoint generates a project idea, feature breakdown,
-    tech stack recommendation, development roadmap, and learning path —
+    tech stack recommendation, development roadmap, and learning path
     all in a single response.
     """
     try:
@@ -78,9 +101,7 @@ async def get_idea_details(
     idea_id: int,
     db: Session = Depends(get_db),
 ):
-    """
-    Get the full development plan for a specific idea.
-    """
+    """Get the full development plan for a specific idea."""
     plan = await idea_service.get_full_plan_by_id(db, idea_id)
     if not plan:
         raise HTTPException(status_code=404, detail="Plan not found")
