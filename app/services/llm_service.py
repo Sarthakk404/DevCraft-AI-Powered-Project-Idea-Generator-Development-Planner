@@ -113,6 +113,8 @@ Return a JSON object with this exact structure:
 - Preferences: {profile.preferences or 'None specified'}
 
 **Constraint:** The project must be fully completable in {profile.time_available}.
+Ensure "frontend" technologies strictly refer to client-side frameworks/libraries (e.g., React, Vue, HTML/CSS) and not backend frameworks (e.g., Flask, Django).
+CRITICAL: Do NOT hallucinate specific URLs for learning resources. For videos/courses, provide a valid YouTube search URL (e.g., 'https://www.youtube.com/results?search_query=React+Tutorial'). For generic documentation, use ONLY canonical root domains (e.g., 'https://react.dev').
 
 Return ONLY a JSON object with this exact structure:
 {{
@@ -181,6 +183,8 @@ Create a COMPLETE development plan for this specific project.
 - Estimated Time: {selected_idea.get('estimated_time', profile.time_available)}
 
 **Constraint:** The plan must be achievable within {profile.time_available}.
+Ensure "frontend" technologies strictly refer to client-side frameworks/libraries (e.g., React, Vue, HTML/CSS) and not backend frameworks (e.g., Flask, Django).
+CRITICAL: Do NOT hallucinate specific URLs for learning resources. For videos/courses, provide a valid YouTube search URL (e.g., 'https://www.youtube.com/results?search_query=React+Tutorial'). For generic documentation, use ONLY canonical root domains (e.g., 'https://react.dev').
 
 Return ONLY a JSON object with this exact structure:
 {{
